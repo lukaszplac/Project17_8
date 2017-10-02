@@ -15,15 +15,16 @@ var profileForm = forms.create({
 });
 
 function renderForm(req, res, locals) {
+	console.log(req.user);
     res.render('profile', extend({
         title: 'My Profile',
         csrfToken: req.csrfToken(),
-        givenName: req.user.givenName,
-        surname: req.user.surname,
-        streetAddress: req.user.customData.streetAddress,
+        givenName: req.user.name.givenName,
+        surname: req.user.name.familyName
+        /*streetAddress: req.user.customData.streetAddress,
         city: req.user.customData.city,
         state: req.user.customData.state,
-        zip: req.user.customData.zip
+        zip: req.user.customData.zip*/
     }, locals || {}));
 }
 
@@ -38,11 +39,11 @@ module.exports = function profile() {
 	        success: function(form) {
 	            req.user.givenName = form.data.givenName;
 	            req.user.surname = form.data.surname;
-	            req.user.customData.streetAddress = form.data.streetAddress;
+	            /*req.user.customData.streetAddress = form.data.streetAddress;
 	            req.user.customData.city = form.data.city;
 	            req.user.customData.state = form.data.state;
 	            req.user.customData.zip = form.data.zip;
-	            req.user.customData.save();
+	            req.user.customData.save();*/
 	            req.user.save(function(err) {
 	                if (err) {
 	                    if (err.developerMessage){
